@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" media="all" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Calculator | Enzo Scholl (Aspiregram)</title>
+    <meta name="author" content="Enzo Scholl (Aspiregram)" />
+    <meta
+      name="description"
+      content="A calculator function utilizing HTML, CSS and JavaScript"
+    />
+  </head>
+  <body>
+    <div class="calculator-wrapper">
+      <h1 aria-label="Calculator">CALCULATOR</h1>
+      <span id="calculator-display" aria-live="polite">0</span>
+      <!-- Memory -->
+      <div class="memory-controls">
+        <button
+          type="button"
+          id="memory-clear"
+          class="memory-button disabled"
+          title="Memory clear"
+        >
+          MC
+        </button>
+        <button
+          type="button"
+          id="memory-recall"
+          class="memory-button disabled"
+          title="Memory recall"
+        >
+          MR
+        </button>
+        <button
+          type="button"
+          id="memory-sum"
+          class="memory-button"
+          title="Memory addition"
+        >
+          M+
+        </button>
+        <button
+          type="button"
+          id="memory-minus"
+          class="memory-button"
+          title="Memory subtraction"
+        >
+          M-
+        </button>
+        <button
+          type="button"
+          id="memory-store"
+          class="memory-button"
+          title="Memory storage"
+        >
+          MS
+        </button>
+        <button type="button" id="memory" class="memory-button" title="Memory">
+          M&#709;
+        </button>
+      </div>
+      <!-- Calculator -->
+      <div class="calculator-controls">
+        <button
+          type="button"
+          id="calculator-pct"
+          class="calculator-button"
+          aria-label="Percentage"
+        >
+          %
+        </button>
+        <button
+          type="button"
+          id="calculator-ce"
+          class="calculator-button"
+          aria-label="Clear entry"
+        >
+          CE
+        </button>
+        <button
+          type="button"
+          id="calculator-clear"
+          class="calculator-button"
+          aria-label="Clear"
+        >
+          C
+        </button>
+        <button
+          type="button"
+          id="calculator-del"
+          class="calculator-button"
+          aria-label="Delete"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="none"
+            viewBox="0 0 48 48"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M36 18 24 30m0-12 12 12m6-22H16L2 24l14 16h26a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4Z"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          id="calculator-one-div"
+          class="calculator-button"
+          aria-label="One divided by..."
+        >
+          <sup>1</sup>/<sub>x</sub>
+        </button>
+        <button
+          type="button"
+          id="calculator-pow"
+          class="calculator-button"
+          aria-label="Square"
+        >
+          x<sup>2</sup>
+        </button>
+        <button
+          type="button"
+          id="calculator-sqrt"
+          class="calculator-button"
+          aria-label="Square root"
+        >
+          &radic;x
+        </button>
+        <button
+          type="button"
+          class="calculator-button"
+          value="&div;"
+          aria-label="Division"
+        >
+          &div;
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="7"
+          aria-label="Seven"
+        >
+          7
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="8"
+          aria-label="Eight"
+        >
+          8
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="9"
+          aria-label="Nine"
+        >
+          9
+        </button>
+        <button
+          type="button"
+          class="calculator-button"
+          value="&times;"
+          aria-label="Multiplication"
+        >
+          &times;
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="4"
+          aria-label="Four"
+        >
+          4
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="5"
+          aria-label="Five"
+        >
+          5
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="6"
+          aria-label="Six"
+        >
+          6
+        </button>
+        <button
+          type="button"
+          class="calculator-button"
+          value="-"
+          aria-label="Subtraction"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="1"
+          aria-label="One"
+        >
+          1
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="2"
+          aria-label="Two"
+        >
+          2
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="3"
+          aria-label="Three"
+        >
+          3
+        </button>
+        <button
+          type="button"
+          class="calculator-button"
+          value="+"
+          aria-label="Addition"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="e"
+          aria-label="Euler's number"
+        >
+          e
+        </button>
+        <button
+          type="button"
+          class="calculator-button default"
+          value="0"
+          aria-label="Zero"
+        >
+          0
+        </button>
+        <button
+          type="button"
+          id="calculator-decimal"
+          class="calculator-button default"
+          value="."
+          aria-label="Decimal separator"
+        >
+          .
+        </button>
+        <button
+          type="button"
+          id="calculator-equals"
+          class="calculator-button"
+          value="="
+          aria-label="Equals"
+        >
+          =
+        </button>
+      </div>
+    </div>
+    <!-- Activity -->
+    <span
+      id="toggle-history"
+      class="clickable-element"
+      aria-label="Toggle history activity"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        fill="none"
+        viewBox="0 0 48 48"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="4"
+          d="M42 16v26H6V16m14 8h8M2 6h44v10H2V6Z"
+        />
+      </svg>
+    </span>
+    <div class="backdrop" style="display: none"></div>
+    <div class="activity-wrapper">
+      <div class="activity-controls">
+        <span
+          id="activity-history"
+          class="activity-option active"
+          aria-label="History option"
+        >
+          History
+        </span>
+        <span
+          id="activity-memory"
+          class="activity-option"
+          aria-label="Memory option"
+        >
+          Memory
+        </span>
+      </div>
+      <div id="display-history" class="activity-display">
+        <p aria-live="polite">No history yet.</p>
+      </div>
+      <div id="display-memory" class="activity-display hidden">
+        <p aria-live="polite">No memory yet.</p>
+      </div>
+      <span
+        id="activity-clear"
+        class="clickable-element hidden"
+        aria-label="Clear activity content"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          fill="none"
+          viewBox="0 0 48 48"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="4"
+            d="M6 12h4m0 0h32m-32 0v28a4 4 0 0 0 4 4h20a4 4 0 0 0 4-4V12m-22 0V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4M20 22v12m8-12v12"
+          />
+        </svg>
+      </span>
+    </div>
+    <!-- Popup -->
+    <div id="popup-menu" class="hidden">
+      <div class="popup-controls">
+        <span id="popup-copy" class="popup-option" aria-label="Copy expression">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.2em"
+            height="1.2em"
+            fill="none"
+            viewBox="0 0 48 48"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M10 30H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h18a4 4 0 0 1 4 4v2m-8 8h18a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4Z"
+            />
+          </svg>
+          Copy
+        </span>
+        <span
+          id="popup-del"
+          class="popup-option"
+          aria-label="Delete expression"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.2em"
+            height="1.2em"
+            fill="none"
+            viewBox="0 0 48 48"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M6 12h4m0 0h32m-32 0v28a4 4 0 0 0 4 4h20a4 4 0 0 0 4-4V12m-22 0V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4M20 22v12m8-12v12"
+            />
+          </svg>
+          Delete
+        </span>
+      </div>
+      <div class="popup-controls hidden">
+        <span
+          id="popup-memory-clear"
+          class="popup-option"
+          aria-label="Memory clear"
+        >
+          <span>MC</span>Clear memory item
+        </span>
+        <span
+          id="popup-memory-sum"
+          class="popup-option"
+          aria-label="Memory addition"
+        >
+          <span>M+</span>Add to memory item
+        </span>
+        <span
+          id="popup-memory-minus"
+          class="popup-option"
+          aria-label="Memory subtraction"
+        >
+          <span>M-</span>Subtract from memory item
+        </span>
+      </div>
+    </div>
+    <!-- Edit -->
+    <span
+      id="color-edit"
+      class="clickable-element"
+      aria-label="Open color editor"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        fill="none"
+        viewBox="0 0 48 48"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="4"
+          d="M22 8H8a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V26M37 5a4.243 4.243 0 1 1 6 6L24 30l-8 2 2-8L37 5Z"
+        />
+      </svg>
+    </span>
+    <div id="color-panel" class="hidden">
+      <div class="backdrop"></div>
+      <span
+        id="close-preview"
+        class="clickable-element hidden"
+        aria-label="Close color scheme preview"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          fill="none"
+          viewBox="0 0 48 48"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="4"
+            d="M36 12 12 36m0-24 24 24"
+          />
+        </svg>
+      </span>
+      <div class="color-wrapper">
+        <h2 aria-label="Edit">EDIT</h2>
+        <form class="color-form">
+          <div class="color-group">
+            <label for="color-primary" class="color-label" aria-label="Primary">
+              PRIMARY
+            </label>
+            <div class="input-controls">
+              <input
+                type="color"
+                name="color-primary"
+                id="color-primary"
+                class="color-input"
+                data-root="--primary-color"
+                value="#090e13"
+                aria-label="Pick a color"
+              />
+              <input
+                type="text"
+                name="color-primary-hex"
+                id="color-primary-hex"
+                class="text-input"
+                data-root="--primary-color"
+                placeholder="#090e13"
+                autocomplete="off"
+                aria-label="Enter a color"
+              />
+            </div>
+          </div>
+          <div class="color-group">
+            <label
+              for="color-secondary"
+              class="color-label"
+              aria-label="Secondary"
+            >
+              SECONDARY
+            </label>
+            <div class="input-controls">
+              <input
+                type="color"
+                name="color-secondary"
+                id="color-secondary"
+                class="color-input"
+                data-root="--secondary-color"
+                value="#181f27"
+                aria-label="Pick a color"
+              />
+              <input
+                type="text"
+                name="color-secondary-hex"
+                id="color-secondary-hex"
+                class="text-input"
+                data-root="--secondary-color"
+                placeholder="#181f27"
+                autocomplete="off"
+                aria-label="Enter a color"
+              />
+            </div>
+          </div>
+          <div class="color-group">
+            <label
+              for="color-tertiary"
+              class="color-label"
+              aria-label="Tertiary"
+            >
+              TERTIARY
+            </label>
+            <div class="input-controls">
+              <input
+                type="color"
+                name="color-tertiary"
+                id="color-tertiary"
+                class="color-input"
+                data-root="--tertiary-color"
+                value="#e7f1ff"
+                aria-label="Pick a color"
+              />
+              <input
+                type="text"
+                name="color-tertiary-hex"
+                id="color-tertiary-hex"
+                class="text-input"
+                data-root="--tertiary-color"
+                placeholder="#e7f1ff"
+                autocomplete="off"
+                aria-label="Enter a color"
+              />
+            </div>
+          </div>
+          <div class="color-group">
+            <label
+              for="color-quaternary"
+              class="color-label"
+              aria-label="Quaternary"
+            >
+              QUATERNARY
+            </label>
+            <div class="input-controls">
+              <input
+                type="color"
+                name="color-quaternary"
+                id="color-quaternary"
+                class="color-input"
+                data-root="--quaternary-color"
+                value="#374350"
+                aria-label="Pick a color"
+              />
+              <input
+                type="text"
+                name="color-quaternary-hex"
+                id="color-quaternary-hex"
+                class="text-input"
+                data-root="--quaternary-color"
+                placeholder="#374350"
+                autocomplete="off"
+                aria-label="Enter a color"
+              />
+            </div>
+          </div>
+          <div class="input-controls">
+            <button
+              type="button"
+              id="color-preview"
+              class="color-button disabled"
+              aria-label="Preview colors changes"
+            >
+              PREVIEW
+            </button>
+            <button
+              type="reset"
+              id="color-cancel"
+              class="color-button"
+              aria-label="Cancel colors changes"
+            >
+              CANCEL
+            </button>
+            <button
+              type="submit"
+              id="color-accept"
+              class="color-button disabled"
+              aria-label="Apply colors changes"
+            >
+              APPLY
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="js/main.js" defer></script>
+  </body>
+</html>

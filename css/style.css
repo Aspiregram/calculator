@@ -1,0 +1,823 @@
+/* Global */
+
+:root {
+  --default-pct: 100%;
+  --default-rem: 1rem;
+  --default-em: 1em;
+  --default-px: 5px;
+  --primary-color: #090e13;
+  --secondary-color: #181f27;
+  --tertiary-color: #e7f1ff;
+  --quaternary-color: #374350;
+  --default-duration: 0.2s;
+  --default-timing-function: ease-in-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--primary-color);
+  transition: background-color var(--default-duration)
+      var(--default-timing-function),
+    color var(--default-timing-function) var(--default-duration);
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.calculator-wrapper,
+.activity-wrapper {
+  flex-direction: column;
+  padding: 3px;
+}
+
+.clickable-element {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: var(--default-px);
+  border-radius: var(--default-px);
+  font-size: 1.8rem;
+  color: var(--tertiary-color);
+  cursor: pointer;
+}
+
+.clickable-element svg {
+  transform-origin: center;
+  transition: filter var(--default-duration) var(--default-timing-function),
+    transform var(--default-duration) var(--default-timing-function);
+}
+
+.clickable-element svg:hover {
+  transform: scale(0.95);
+}
+
+.clickable-element svg:active {
+  transform: scale(0.85);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  animation: fadein var(--default-duration) var(--default-timing-function)
+    forwards;
+}
+
+.backdrop.fadeout {
+  animation: fadeout var(--default-duration) var(--default-timing-function)
+    forwards;
+}
+
+.clickable-element svg:hover,
+.memory-button:hover,
+.calculator-button:hover,
+.activity-option:hover,
+.memory-li-button:hover,
+.input-text:hover,
+.color-button:hover {
+  filter: brightness(0.9);
+}
+
+.clickable-element svg:active,
+.memory-button:active,
+.calculator-button:active,
+.calculator-button.active,
+.activity-option:active,
+.memory-li-button:active,
+.input-text:active,
+.color-button:active {
+  filter: brightness(0.8);
+}
+
+.memory-button:hover,
+.display-text.li:hover {
+  background-color: var(--secondary-color);
+}
+
+.memory-button.disabled,
+.calculator-button.disabled,
+#color-accept.disabled,
+#color-preview.disabled {
+  filter: brightness(0.5);
+  pointer-events: none;
+}
+
+#toggle-history,
+#color-edit {
+  position: fixed;
+  top: var(--default-rem);
+  right: var(--default-rem);
+  background-color: var(--secondary-color);
+  transition: right var(--default-duration) var(--default-timing-function);
+}
+
+.activity-display li:hover {
+  background-color: var(--secondary-color);
+}
+
+.clickable-element.hidden,
+.activity-display.hidden,
+#popup-menu.hidden,
+.popup-controls.hidden,
+#color-panel.hidden,
+#close-preview.hidden {
+  display: none;
+}
+
+#color-preview,
+#color-cancel {
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+}
+
+/* Memory */
+
+.memory-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+}
+
+#memory {
+  display: inline-flex;
+}
+
+.memory-button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  background-color: transparent;
+  font-weight: 500;
+  color: var(--tertiary-color);
+  transition: background-color var(--default-duration)
+      var(--default-timing-function),
+    filter var(--default-duration) var(--default-timing-function);
+  user-select: none;
+}
+
+/* Calculator */
+
+.calculator-wrapper {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: var(--default-pct);
+}
+
+.calculator-wrapper h1 {
+  margin-top: var(--default-rem);
+  margin-left: var(--default-rem);
+  letter-spacing: var(--default-px);
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--tertiary-color);
+}
+
+#calculator-display {
+  mask-image: linear-gradient(to left, var(--primary-color) 80%, transparent);
+  display: inline-flex;
+  flex: 1;
+  justify-content: end;
+  align-items: center;
+  height: max-content;
+  padding: var(--default-rem);
+  text-overflow: clip;
+  white-space: nowrap;
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--tertiary-color);
+  overflow: hidden;
+}
+
+.calculator-controls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+}
+
+.calculator-button {
+  padding: 1.5rem 0;
+  border-radius: var(--default-px);
+  background-color: var(--secondary-color);
+  color: var(--tertiary-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: filter var(--default-duration) var(--default-timing-function);
+  user-select: none;
+}
+
+.calculator-button:last-child {
+  background-color: var(--quaternary-color);
+  color: var(--primary-color);
+}
+
+.calculator-button.default {
+  background-color: var(--tertiary-color);
+  color: var(--primary-color);
+}
+
+/* Activity */
+
+#toggle-history {
+  display: inline-flex;
+}
+
+.activity-wrapper {
+  mask-image: none;
+  position: fixed;
+  bottom: 0;
+  display: none;
+  gap: 10px;
+  width: 100%;
+  height: 70%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: var(--secondary-color);
+  animation: movein var(--default-duration) var(--default-timing-function)
+    forwards;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.activity-wrapper.moveinalt {
+  animation: moveinalt var(--default-duration) var(--default-timing-function)
+    forwards;
+}
+
+.activity-controls {
+  display: none;
+}
+
+.activity-option {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  color: var(--tertiary-color);
+  transition: filter var(--default-duration) var(--default-timing-function);
+  cursor: default;
+  user-select: none;
+}
+
+.activity-option.active::after {
+  content: "";
+  width: 25px;
+  height: var(--default-px);
+  border-radius: 10px;
+  background-color: var(--quaternary-color);
+  transition: transform var(--default-duration) var(--default-timing-function);
+}
+
+.activity-option.active:hover::after {
+  transform: scaleX(0.8);
+}
+
+.activity-option.active:active::after {
+  transform: scaleX(0.7);
+}
+
+#display-memory li:hover .memory-li-controls {
+  display: inline-flex;
+}
+
+.activity-display {
+  display: flex;
+  flex-direction: column;
+  height: var(--default-pct);
+  transform-origin: bottom;
+  animation: movein var(--default-duration) var(--default-timing-function)
+    forwards;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.activity-display::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activity-display::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: var(--tertiary-color);
+}
+
+.activity-display::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: var(--quaternary-color);
+}
+
+.activity-display::-webkit-scrollbar-thumb:hover {
+  background-color: var(--secondary-color);
+}
+
+.activity-display p {
+  display: inline-flex;
+  padding: var(--default-rem);
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--tertiary-color);
+}
+
+.activity-display ul {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  list-style: none;
+}
+
+.activity-display li {
+  mask-image: linear-gradient(to left, var(--primary-color) 80%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 2rem 1rem;
+  border-radius: var(--default-px);
+  background-color: transparent;
+  text-overflow: clip;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--tertiary-color);
+  transition: background-color var(--default-duration)
+    var(--default-timing-function);
+  animation: moveout var(--default-duration) var(--default-timing-function)
+    forwards;
+  overflow: hidden;
+}
+
+.memory-li-controls {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+}
+
+.memory-li-button {
+  padding: 0.2rem 0.3rem;
+  border-radius: var(--default-px);
+  background-color: var(--quaternary-color);
+  color: var(--tertiary-color);
+  font-weight: 500;
+  font-size: 0.8rem;
+  transition: filter var(--default-duration) var(--default-timing-function);
+  user-select: none;
+}
+
+#activity-clear {
+  position: fixed;
+  bottom: var(--default-rem);
+  right: var(--default-rem);
+  background-color: var(--primary-color);
+}
+
+/* Popup */
+
+#popup-menu {
+  position: fixed;
+  padding: var(--default-px);
+  border-radius: var(--default-px);
+  background-color: var(--secondary-color);
+  transform-origin: top;
+  animation: popin var(--default-duration) var(--default-timing-function)
+    forwards;
+}
+
+.popup-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.popup-option {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  width: var(--default-pct);
+  padding: 3px 8px;
+  border-radius: var(--default-px);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--tertiary-color);
+  transition: background-color var(--default-duration)
+    var(--default-timing-function);
+  cursor: pointer;
+  user-select: none;
+}
+
+.popup-option:hover {
+  background-color: var(--quaternary-color);
+}
+
+.popup-option svg {
+  margin-bottom: 2px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Edit */
+
+#color-edit {
+  bottom: auto;
+  right: 5rem;
+}
+
+#color-panel {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.color-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 90%;
+  height: fit-content;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  background-color: var(--secondary-color);
+  animation: scalein var(--default-duration) var(--default-timing-function)
+    forwards;
+  z-index: 2;
+}
+
+.color-wrapper h2 {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  color: var(--tertiary-color);
+}
+
+.color-wrapper h2::after {
+  content: "";
+  width: var(--default-pct);
+  height: var(--default-px);
+  border-radius: var(--default-px);
+  background-color: var(--tertiary-color);
+}
+
+.color-wrapper.scaleout {
+  animation: scaleout var(--default-duration) var(--default-timing-function)
+    forwards;
+}
+
+.color-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.color-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.color-label {
+  margin-left: 45px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--tertiary-color);
+}
+
+.input-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.color-input {
+  width: 35px;
+  height: 35px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.color-input::-webkit-color-swatch {
+  border: 2px solid #000000;
+  border-radius: var(--default-px);
+}
+
+.text-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--default-px);
+  background-color: var(--tertiary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: filter var(--default-duration) var(--default-timing-function);
+}
+
+.text-input::placeholder {
+  color: var(--primary-color);
+  filter: opacity(0.5);
+}
+
+.color-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--default-rem);
+}
+
+.color-button {
+  width: var(--default-pct);
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: var(--default-px);
+  transition: filter var(--default-duration) var(--default-timing-function);
+}
+
+#close-preview {
+  position: fixed;
+  top: 5rem;
+  right: var(--default-rem);
+  background-color: var(--secondary-color);
+  transform-origin: center;
+  animation: brightenup 2s var(--default-timing-function) alternate infinite;
+  z-index: 2;
+}
+
+#close-preview:hover {
+  animation: none;
+}
+
+#color-accept {
+  background-color: var(--tertiary-color);
+  color: var(--primary-color);
+  transition: filter var(--default-duration) var(--default-timing-function);
+}
+
+/* Animation */
+
+@keyframes movein {
+  0% {
+    filter: opacity(0);
+    transform: translateY(100%);
+  }
+
+  100% {
+    filter: opacity(1);
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveinalt {
+  0% {
+    filter: opacity(1);
+    transform: translateY(0);
+  }
+
+  100% {
+    filter: opacity(0);
+    transform: translateY(100%);
+  }
+}
+
+@keyframes moveout {
+  0% {
+    filter: opacity(0);
+    transform: translateY(-100%);
+  }
+
+  100% {
+    filter: opacity(1);
+    transform: translateY(0);
+  }
+}
+
+@keyframes popin {
+  0% {
+    filter: opacity(0);
+    transform: translateY(-100%);
+  }
+
+  100% {
+    filter: opacity(1);
+    transform: translateY(0);
+  }
+}
+
+@keyframes scalein {
+  0% {
+    filter: opacity(0);
+    transform: scale(0);
+  }
+
+  100% {
+    filter: opacity(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleout {
+  0% {
+    filter: opacity(1);
+    transform: scale(1);
+  }
+
+  100% {
+    filter: opacity(0);
+    transform: scale(0);
+  }
+}
+
+@keyframes fadein {
+  0% {
+    filter: opacity(0);
+  }
+
+  100% {
+    filter: opacity(1);
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    filter: opacity(1);
+  }
+
+  100% {
+    filter: opacity(0);
+  }
+}
+
+@keyframes brightenup {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+
+  100% {
+    filter: brightness(0.5);
+    transform: scale(0.75);
+  }
+}
+
+/* RWD */
+
+@media (min-width: 1024px) {
+  body {
+    flex-direction: row;
+  }
+
+  .calculator-wrapper {
+    width: 85%;
+  }
+
+  .calculator-wrapper h1 {
+    margin-top: 0;
+    font-size: 2rem;
+  }
+
+  #calculator-display {
+    font-size: 4rem;
+  }
+
+  .memory-controls {
+    justify-content: start;
+  }
+
+  #memory {
+    display: none;
+  }
+
+  .memory-button {
+    flex: 0;
+    padding: 3rem 2rem;
+    border-radius: var(--default-px);
+  }
+
+  .calculator-button {
+    padding: 3rem 0;
+    font-size: 2rem;
+  }
+
+  #toggle-history {
+    display: none;
+  }
+
+  .activity-wrapper {
+    position: relative;
+    display: flex;
+    width: 15%;
+    height: var(--default-pct);
+    gap: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: transparent;
+    animation: none;
+    z-index: 0;
+  }
+
+  .activity-controls {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+  }
+
+  .activity-display::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .activity-display p {
+    font-size: var(--default-rem);
+  }
+
+  .activity-display li {
+    padding: var(--default-rem);
+    font-size: var(--default-rem);
+  }
+
+  .memory-li-button {
+    padding: 0.3rem 0.4rem;
+    font-size: 1rem;
+  }
+
+  #activity-clear {
+    background-color: var(--secondary-color);
+  }
+
+  .popup-option {
+    gap: 10px;
+    padding: 3px 10px;
+    font-size: 1rem;
+  }
+
+  .popup-option svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  #color-edit {
+    top: auto;
+    bottom: var(--default-rem);
+    right: var(--default-rem);
+  }
+
+  .color-wrapper {
+    width: 30%;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .color-wrapper h2 {
+    font-size: 2rem;
+  }
+
+  .color-form {
+    gap: 2rem;
+  }
+
+  .color-label {
+    margin-left: 50px;
+    font-size: 1rem;
+  }
+
+  .color-input {
+    width: 40px;
+    height: 40px;
+  }
+
+  .text-input {
+    font-size: 1rem;
+  }
+
+  .color-button {
+    padding: var(--default-rem);
+    font-size: var(--default-rem);
+  }
+
+  #close-preview {
+    top: var(--default-rem);
+  }
+}
